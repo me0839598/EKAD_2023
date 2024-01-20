@@ -1,0 +1,46 @@
+ <script>
+        function deletepopup(id) {
+            debugger;
+            swal({
+                title: "AreYouSure ",
+                text: "سوف يتم حذف هذا القطاع !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0a4976",
+                confirmButtonText: "نعم !",
+                cancelButtonText: "الغاء",
+                closeOnConfirm: false,
+            },
+            
+            
+            function(){
+            debugger;
+            $("#delid").val(id);
+            //$("#ModalDelete").modal('show');
+            var SectorID = $("#delid").val();
+            $.ajax({
+                type: "POST",
+                url: "/sector/DeleteSector",
+                data: { id: SectorID },
+                success: function (response) {
+
+                    debugger
+                    if (response.success) {
+                        // Process the successful response, e.g., show a success message
+                        alert(response.message);
+                        // Optionally, you can redirect the user to another page
+                        window.location.href = "/sector/Index";
+                    }
+                    else {
+                        alert(response.message);
+                    }
+
+                },
+                error: function () {
+                    alert("Error");
+                }
+
+            });
+            });
+        }
+    </script>

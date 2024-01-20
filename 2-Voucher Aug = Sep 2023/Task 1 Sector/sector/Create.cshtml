@@ -1,0 +1,231 @@
+﻿@using Ekad.Voucher.domain.Resources
+@model Ekad.Voucher.domain.context.TblSector
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section css {
+
+    <link href="/metronic/theme_rtl/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/metronic/theme_rtl/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+    <link href="/metronic/theme_rtl/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/metronic/theme_rtl/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/metronic/theme_rtl/assets/global/plugins/clockface/css/clockface.css" rel="stylesheet" type="text/css" />
+    <style>
+        .display-none {
+            display: none;
+        }
+    </style>
+}
+<style>
+
+    .error {
+        color: #e73d4a;
+        padding-right: 200px;
+    }
+
+    .select2-hidden-accessible,
+    input.error {
+        background: #FEF1EC;
+        border: 1px solid #CD0A0A;
+    }
+</style>
+
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="/sector/Index">
+
+              
+            </a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>اضافة قطاع </span>
+        </li>
+    </ul>
+</div>
+<!-- END PAGE BAR -->
+<!-- BEGIN PAGE TITLE-->
+<div class="row">
+    <div class="col-md-10">
+        <h1 class="page-title">
+           
+           
+        </h1>
+    </div>
+
+    <div class="col-md-2">
+        <a href="/sector/Index" class="btn green btn-add">
+            <i class="fa fa-plus"></i>
+            عرض الكل
+
+        </a>
+    </div>
+
+</div>
+
+<!-- START WIZARD -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered" id="form_wizard_1">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-layers font-red"></i>
+                    <span class="caption-subject font-red bold uppercase">
+                        نموذج اضافة قطاع
+                        
+                    </span>
+                </div>
+            </div>
+
+
+            <div class="portlet-body form">
+                <form class="form-horizontal" asp-action="Create" id="submit_form" >
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-wizard">
+                        <div class="form-body">
+                            <div class="tab-content">
+                               
+                               
+
+                                <div class="tab-pane active" id="tab1">
+
+                                    <h3 class="block">بيانات القطاع</h3>
+                                    @if (Model.SectorId != 0)
+                                    {
+                                        <input type="hidden" asp-for="SectorId",value="@Model.SectorId"/>
+                                    }
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-12 form-group">
+                                            <label class="control-label col-md-3">
+                                                اسم القطاع
+                                                <span class="required"> * </span>
+                                            </label>
+
+                                            <div class="col-md-9">
+                                                <input asp-for="SectorNameAr" type="text" class="form-control" id="SectorNameAr" name="SectorNameAr" required />
+                                            </div>
+                                            <div class="col-md-12 myerror"></div>
+                                        </div>
+                                        <div class="col-md-6 col-xs-12 form-group">
+                                            <label class="control-label col-md-3">
+                                                اسم القطاع بالانجليزية
+                                                <span class="required"> * </span>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input asp-for="SectorNameEn" type="text" class="form-control" id="SectorNameEn" name="SectorNameEn" required />
+
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-12 form-group">
+                                            <label class="control-label col-md-3">
+                                                الملاحظات
+
+                                            </label>
+                                            <div class="col-md-9">
+                                               
+                                                <textarea asp-for="SectorNotesAr" class="form-control" id="SectorNotesAr" name="SectorNotesAr"></textarea>
+                                            </div>
+                                            <div class="col-md-12 myerror"></div>
+                                        </div>
+                                        <div class="col-md-6 col-xs-12 form-group" id="MiladyDiv">
+                                            <label class="control-label col-md-3">
+                                                الملاحظات بالانجليزية
+                                            </label>
+                                            <div class="col-md-9">
+                                                <textarea asp-for="SectorNameEn" class="form-control" id="SectorNotesEn" name="SectorNotesEn"></textarea>
+                                            </div>
+                                            <div class="col-md-12 myerror"></div>
+                                        </div>
+                                    </div>
+                                    
+                                   
+                                  
+                                    </div>
+
+
+
+
+
+
+
+
+
+                        <div class="form-actions text-center">
+                            <div class="row">
+                                <div class="col-md-9">
+
+                                            <button type="submit" id="SaveBtn" class="btn green" onclick="ADD()">
+                                                حفظ 
+                                       <i class="fa fa-check"></i>
+                                        
+                                        
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                       
+                    </div>
+                    </div>
+                   </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+
+        function ADD() {
+            // Prevent the form from submitting normally
+            event.preventDefault();
+
+            // Get the form data
+            var formData = new FormData($('#submit_form')[0]);
+
+            // Send an AJAX request to the server to save the form data
+            $.ajax({
+                type: "POST",
+                url: "/sector/Create",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    // Handle the success response from the server, if any
+                    alert(response.message);
+                    window.location.href="/sector/Index"; // Reload the page to fetch the updated data
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error response from the server
+                    alert("Error: " + error);
+                }
+            });
+        }
+
+
+
+
+
+
+  
+ 
+    </script>
+
+
+
+}

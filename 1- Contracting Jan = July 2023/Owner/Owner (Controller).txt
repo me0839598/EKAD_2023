@@ -1,0 +1,26 @@
+using EkadPropertyMangment.BLL.BussinessLayer;
+using EkadPropertyMangment.Web.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace EkadPropertyMangment.Web.Controllers
+{
+    public class emptyController : Controller
+    {
+        private int lang;
+
+        public ActionResult Index()
+        {
+            int? CollectorID = null;
+           
+
+              OwnerBLL bll = new OwnerBLL();
+             ViewBag. AllOwners = bll.GetAllOwners(lang, null, null, null, null, null, null, null, CollectorID);
+              return View();
+
+        }
+    }
+}

@@ -1,0 +1,224 @@
+﻿@using Ekad.Voucher.domain.Resources
+@model IEnumerable<Ekad.Voucher.domain.context.TblProvider>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="/Providers/Index">
+
+                @Resource.Providers
+            </a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>@Resource.ProvidersList</span>
+        </li>
+    </ul>
+</div>
+<!-- END PAGE BAR -->
+<!-- BEGIN PAGE TITLE-->
+<div class="row">
+    <div class="col-md-10">
+        <h1 class="page-title">
+           Providers List
+            @*<small>ادارة البيانات للعميل من بحث واضافة وتعديل</small>*@
+        </h1>
+    </div>
+
+    <div class="col-md-2">
+        <a href="/Provider/Create" class="btn green btn-add">
+            <i class="fa fa-plus"></i>
+            @Resource.AddNew
+
+        </a>
+    </div>
+
+</div>
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+@*search zone
+*@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box purple ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-search"></i> @Resource.SearchDataModel
+                </div>
+                <div class="tools">
+                    <a href="" class="expand" data-original-title="" title=""> </a>
+                    <a href="" class="reload" data-original-title="" title=""> </a>
+
+                </div>
+            </div>
+            <div class="portlet-body form collapse">
+                <form class="form-horizontal" role="form" onsubmit="return Search(this)">
+                    <div class="form-wizard">
+                        <div class="form-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <div class="row">
+                                        <div class="col-md-6 col-xs-12 form-group">
+                                            <label class="col-md-3 control-label">@Resource.Provider</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="Provider" class="form-control" placeholder="@Resource.Provider">
+                                                    
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-xs-12 form-group">
+                                            <label class="control-label col-md-3"> @Resource.ComessionType</label>
+                                            <div class="col-md-9">
+                                                 <select class="form-control select2" width="100%" style="width:100%;" id="CommessionType" name="CommessionType">
+                                                        <option value=""></option>
+                                                        @if (ViewBag.CommessionTypes != null)
+                                                        {
+                                                            foreach (var item in ViewBag.CommessionTypes as IEnumerable<Ekad.Voucher.domain.context.TblSetting>)
+                                                            {
+                                                                <option value="@item.SettingId">@item.Name_Localized</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                      
+                    </div>
+                    <div class="form-actions right1">
+                        <button type="button" id="SearchBtn" onclick="window.location.reload();" class="btn default">@Resource.Clear</button>
+                        <button type="button" id="SearchBtn" onclick="Search()" class="btn green">@Resource.Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+
+</div>
+
+
+<input id="delid" type="hidden" />
+    <!-- Start DataTable -->
+    <div class="row" id="div_data" name="div_data" @*style="visibility:hidden;"*@ >
+        <div class="col-md-12" id="AllTable">
+            
+                <!-- BEGIN EXAMPLE TABLE PORTLET-->
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-dark">
+                            <i class="icon-settings font-dark"></i>
+                            <span class="caption-subject bold uppercase">@Resource.SearchResults</span>
+                        </div>
+                        <div class="tools"> </div>
+                    </div>
+                    <div class="portlet-body">
+                       
+                        <table class="table" width="99%" id="sample_1">
+                            <thead>
+                                <tr>
+                                    @*<th>logo</th>*@
+                                    <th>@Resource.ProviderName</th>
+                                    <th>@Resource.ComessionType</th>
+                                    <th>@Resource.CommessionValue</th>
+                                    <th>@Resource.Email</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableid" name="tableid">
+                                @if (Model != null && Model.Count() > 0)
+                                {
+
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            @*<td>
+                                                <img src="~/Uploads/@item.CompanyLogo" width="64px;" class="img-thumbnail" />
+                                            </td>*@
+                                            <td>@item.ProviderName_Localized</td>
+                                            <td>@item.CommessionTypeNavigation.Name_Localized</td>
+                                            <td>@item.CommessionValue</td>
+                                            <td>@item.ProviderEmail</td>
+                                          <td>
+                                                <div class="btn-group pull-right">
+                                                    <button class="btn green btn-xs btn-outline dropdown-toggle" data-toggle="dropdown">
+                                                        @Resource.Tools
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu pull-right">
+                                                       
+                                                        <li>
+                                                            <a href="@Url.Action("Edit", new { id = item.ProviderId })"><i class="fa fa-edit"></i> @Resource.Edit </a>
+                                                        </li>
+                                                        
+                                                        <li>
+                                      
+                                                      <a href="/Provider/ProviderBranches" class="btn green btn-add"><i class="fa fa-plus"></i> show Branches </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+       
+
+
+
+
+    </div>
+    <!-- End dataTable -->
+
+
+@section Scripts{
+<script>
+    function Search() {
+
+        debugger;
+        var Provider = document.getElementById("Provider").value;
+        
+        var CommessionType = $("#CommessionType option:selected").val();
+
+
+        $.ajax({
+            type: "GET",
+           // contentType: 'application/json; charset=utf-8',
+            url: "/Provider/SearchProvider",
+            cache: false,
+            data: {
+                Provider: Provider,
+                CommessionType: CommessionType,
+            },
+            success: function (data) {
+                debugger;
+            
+                $("#AllTable").html(data);
+            },
+            error: function () {
+                alert("Error !!!")
+            }
+
+        });
+    }
+ </script>
+}

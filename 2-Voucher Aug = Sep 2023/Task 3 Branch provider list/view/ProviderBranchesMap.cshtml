@@ -1,0 +1,71 @@
+﻿@using Ekad.Voucher.domain.Resources
+@model Ekad.Voucher.domain.context.TblProviderBranch
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<!-- BEGIN PAGE TITLE-->
+<div class="row">
+    <div class="col-md-10">
+        <h1 class="page-title">
+            providerBranchesMap
+        </h1>
+    </div>
+</div>
+<div class="row" id="div_data" name="div_data">
+   
+   
+    <div id="map"></div>
+    
+    
+    
+
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+
+</div>
+
+
+
+
+@section Scripts{
+
+    <script>
+        function initMap() {
+            // Define the initial location
+            var initialLocation = { lat: @Model.BranchLat, lng: @Model.BranchLang};
+
+            // Create a new map instance
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: initialLocation
+            });
+
+            // Add a marker to the map
+            var marker = new google.maps.Marker({
+                position: initialLocation,
+                map: map,
+                title: 'Marker Title'
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            initMap();
+        });
+
+    </script>
+    <!-- Include the Google Maps API and jQuery -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAufoO5p66dFtJqlnsGKobW4bEqLPruqbM&region=EG&language=ar&libraries=places"></script>
+  
+
+    
+}

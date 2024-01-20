@@ -1,0 +1,235 @@
+@model IEnumerable<EkadPropertyMangment.Web.Models.Context.Owner>
+
+@{
+    //Layout = null;
+   ViewBag.Title = " Owner Data"; 
+   
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameAr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NameEn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NationalityId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CareerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityTypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityExpireDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityPlace)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommissionAccountId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommercialRegister)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GuarantorId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BankId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ZoneId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NeighborhoodId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StreetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BuildingNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdditionalNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoogleMap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Createdby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TitleId)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var owner in ViewBag.employee) {   //var item in Model
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameAr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameEn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationalityId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CareerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityExpireDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityPlace)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BirthDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommissionAccountId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommercialRegister)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GuarantorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZoneId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CityId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NeighborhoodId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreetName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuildingNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostalCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdditionalNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoogleMap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Createdby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TitleId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.OwnerId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.OwnerId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.OwnerId })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

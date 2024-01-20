@@ -1,0 +1,110 @@
+﻿@using Ekad.Voucher.domain.Resources
+@model IEnumerable<Ekad.Voucher.domain.context.TblProviderBranch>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="/Providers/ProviderBranches">
+
+                ProviderBranches
+            </a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>providerBranches</span>
+        </li>
+    </ul>
+</div>
+<!-- BEGIN PAGE TITLE-->
+<div class="row">
+    <div class="col-md-10">
+        <h1 class="page-title">
+            providerBranches
+        </h1>
+    </div>
+</div>
+<div class="row" id="div_data" name="div_data" @*style="visibility:hidden;"*@>
+    <div class="col-md-12" id="AllTable">
+
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase">@Resource.SearchResults</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+
+                <table class="table" width="99%" id="sample_1">
+                    <thead>
+                        <tr>
+                         
+                            <th>ProviderNameAr</</th>
+
+                            <th>BranchName</th>
+                            
+                            
+                            <th>City</th>
+                          
+                            <th>BranchMobile</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody id="tableid" name="tableid">
+                        @if (Model != null && Model.Count() > 0)
+                        {
+
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                           
+                                    <td>@item.ProviderFkNavigation.ProviderNameAr</td>
+                                    <td>@item.BranchNameAr</td>
+                                    
+                                   
+                                    <td>@(item.CityFkNavigation != null ? item.CityFkNavigation.Name_Localized : "No City")</td>
+                                    
+                                    <td>@item.BranchMobile</td>
+                                    <td>
+                                        <div class="btn-group pull-right">
+                                            <button class="btn green btn-xs btn-outline dropdown-toggle" data-toggle="dropdown">
+                                                Tools
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right">
+
+                                        <li>
+                                                    <a href="@Url.Action("Map", new { id = item.BranchId })"><i class="fa fa-edit"></i> Map</a>
+                                          </li>
+                                               
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+                            }
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+   
+   
+
+
+
+@section Scripts{
+
+   
+    
+}

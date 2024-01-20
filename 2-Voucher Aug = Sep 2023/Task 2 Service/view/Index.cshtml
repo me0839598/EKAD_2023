@@ -1,0 +1,201 @@
+﻿@using Ekad.Voucher.domain.Resources
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="/service/Index">
+                service
+            </a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>service</span>
+        </li>
+    </ul>
+</div>
+
+<!-- END PAGE TITLE-->
+<div class="row">
+    <div class="col-md-10">
+        <h1 class="page-title">
+            ServiceList
+
+        </h1>
+    </div>
+
+    <div class="col-md-2">
+        <a href="/service/Create" class="btn green btn-add">
+            <i class="fa fa-plus"></i>
+            @Resource.AddNew
+
+        </a>
+    </div>
+
+</div>
+
+<!-- END PAGE HEADER-->
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box purple ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-search"></i> @Resource.SearchDataModel
+                </div>
+                <div class="tools">
+                    <a href="" class="expand" data-original-title="" title=""> </a>
+                    <a href="" class="reload" data-original-title="" title=""> </a>
+
+                </div>
+            </div>
+            <div class="portlet-body form collapse">
+                <form class="form-horizontal" role="form" >
+                    <div class="form-body">
+                        <div class="col-md-6 form-group form-md-line-input">
+                            <label class="col-md-3 control-label">servicename</label>
+                            <div class="col-md-9">
+                                <div class="input-icon">
+                                    <input type="text" id="ServiceName" name="ServiceName" class="form-control" placeholder="Service Name">
+                                    <div class="form-control-focus"> </div>
+                                    <i class="fa fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xs-12 form-group">
+                            <label class="control-label col-md-3"> SettingType</label>
+                            <div class="col-md-9">
+                                <select class="form-control select2" width="100%" style="width:100%;" id="ServiceType" name="ServiceType">
+                                    <option value=""></option>
+                                    @if (ViewBag.settingtype != null)
+                                    {
+                                        foreach (var item in ViewBag.settingtype)
+                                        {
+                                            <option value="@item.SettingId">@item.SettingNameEn</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                        </div>
+                    </div>
+                    <div class="form-actions right1">
+
+                        <button type="button" id="SearchBtn" onclick="Search()"  class="btn green">@Resource.Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+
+</div>
+
+
+<input id="delid" type="hidden" />
+
+
+<div class="row" id="div_data" name="div_data">
+    <div class="col-md-12" id="AllTable">
+
+
+    </div>
+
+
+
+
+
+
+</div>
+<!-- End dataTable -->
+@section scripts{
+
+    <script>
+
+        $(function(){
+         Search();
+        });
+
+        function Search() {
+            
+            debugger;
+            var serviceName = $("#ServiceName").val();
+            var serviceType = $("#ServiceType option:selected").val();
+            $.ajax({
+                type: "GET",
+                url: "/service/Search",
+                data: {
+                    ServiceName: serviceName,
+                    ServiceType: serviceType
+                },
+                success: function (data) {
+                    debugger;
+                    $("#AllTable").html(data);
+                },
+                error: function (e) {
+                    debugger;
+                    alert("Error !!!")
+                }
+
+            });
+        }
+
+
+    </script>
+
+
+    <script>
+        function deletepopup(id) {
+            debugger;
+            swal({
+                title: "AreYouSure ",
+                text: "سوف يتم حذف هذه الخدمة !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0a4976",
+                confirmButtonText: "نعم !",
+                cancelButtonText: "الغاء",
+                closeOnConfirm: false,
+            },
+
+
+                function () {
+                    debugger;
+                    $("#delid").val(id);
+                    //$("#ModalDelete").modal('show');
+                    var SectorID = $("#delid").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/service/DeleteService",
+                        data: { id: SectorID },
+                        success: function (response) {
+
+                            debugger
+                            if (response.success) {
+                                // Process the successful response, e.g., show a success message
+                                alert(response.message);
+                                // Optionally, you can redirect the user to another page
+                                window.location.href = "/service/Index";
+                            }
+                            else {
+                                alert(response.message);
+                            }
+
+                        },
+                        error: function () {
+                            alert("Error");
+                        }
+
+                    });
+                });
+        }
+    </script>
+}

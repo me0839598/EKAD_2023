@@ -1,0 +1,248 @@
+using EkadPropertyMangment.BLL.ViewModels;
+using EkadPropertyMangment.DAL.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
+using System.Data.Objects.DataClasses;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+
+
+namespace EkadPropertyMangment.BLL.BussinessLayer
+{
+   public class ProjectBLL : BasicBLL
+    {
+
+        public int? MaxProjectCode()
+        {
+            try
+            {
+                int? result = _dataBase.sp_MaxProjectCode().SingleOrDefault();
+                if (result == null)
+                {
+                    result = 1;
+
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+        public int? MaxProjectItemCode()
+        {
+            try
+            {
+                int? result = _dataBase.sp_MaxProjectItemsCode().SingleOrDefault();
+                if (result == null)
+                {
+                    result = 1;
+
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
+       
+
+        public List<SettingVM> GetAllMeasurements(int lang)
+        {
+            List<SettingVM> Result = new List<SettingVM>();
+            try
+            {
+                Result = _dataBase.sp_Measurements_selectAll().ToList().Select(obj => new SettingVM()
+                {
+                    ID = obj.MeasurementID,
+                    NameAR = obj.NameAR,
+                    NameEN = obj.NameEN,
+
+                }).ToList();
+                return Result;
+            }
+            catch (Exception ex)
+            {
+
+                return new List<SettingVM>();
+            }
+
+        }
+        public int insert(ProjectVM obj)
+        {
+
+            ObjectParameter ProjectID = new ObjectParameter("ProjectID", typeof(Int64));
+
+            try
+            {
+                string nameen = (obj.NameEN == ""|| obj.NameEN == " " || obj.NameEN == null) ? obj.NameAR : obj.NameEN;
+                  
+                    int ID = _dataBase.SP_ProjectInsert(obj.NameAR, nameen,obj.BidNumber,obj.OwnerID,obj.ProjectManagerID,
+                    obj.GeneralConsultantID,obj.BusinessConsultantID,obj.Details,obj.Createdby,obj.AddressAR,obj.AddressEN,obj.Items);
+
+                return ID;
+              
+            }
+            catch (Exception ex)
+            {
+
+                return 0;
+            }
+        }
+        public int Update(ProjectVM obj)
+        {
+
+            ObjectParameter ProjectID = new ObjectParameter("ProjectID", typeof(Int64));
+
+            try
+            {
+                string nameen = (obj.NameEN == "" || obj.NameEN == " " || obj.NameEN == null) ? obj.NameAR : obj.NameEN;
+
+                int ID = _dataBase.SP_ProjectUpdate(obj.ProjectID,obj.NameAR, nameen, obj.BidNumber, obj.OwnerID, obj.ProjectManagerID,
+                obj.GeneralConsultantID, obj.BusinessConsultantID, obj.Details, obj.Createdby, obj.AddressAR, obj.AddressEN);
+
+                return ID;
+
+            }
+            catch (Exception ex)
+            {
+
+                return 0;
+            }
+        }
+
+        public List<ProjectVM> GetAllProjects(int lang)
+        {
+            List<ProjectVM> Result = new List<ProjectVM>();
+            try
+            {
+               
+                Result = _dataBase.sp_Project_SelectAll().ToList().Select(obj => new ProjectVM()
+                {
+                    
+                    ProjectID = obj.ProjectID,
+                    ProjectCode = obj.ProjectCode,
+                    BidNumber   = obj.BidNumber,
+                    Details = obj.Details,
+                    NameAR =  obj.NameAR,
+                    NameEN =  obj.NameEN,
+                    AddressAR=obj.AddressAR,
+                    AddressEN=obj.AddressEN,
+                    OwnerNameAR=obj.OwnerNameAR,
+                    OwnerNameEN = obj.OwnerNameEN,
+                    ProjectManagerNameAR = obj.ProjectManagerNameAR,
+                    ProjectManagerNameEN = obj.ProjectManagerNameEN,
+                    GeneralConsultantNameAR = obj.GeneralConsultantNameAR,
+                    GeneralConsultantNameEN = obj.GeneralConsultantNameEN,
+                     BusinessConsultantNameAR = obj.BusinessConsultantNameAR,
+                     BusinessConsultantNameEN = obj.BusinessConsultantNameEN,
+                     Language =lang,
+                   
+
+                }).ToList();
+                return Result;
+            }
+            catch (Exception ex)
+            {
+
+                return new List<ProjectVM>();
+            }
+
+        }
+
+        public ProjectVM GetProjectData(int ProjectID, int lang)
+        {
+            ProjectVM Result = new ProjectVM();
+            try
+            {
+                Result = _dataBase.sp_Project_SelectByID1(ProjectID).ToList().Select(obj => new ProjectVM()
+                {
+                    ProjectID = obj.ProjectID,
+                    NameAR = obj.NameAR,
+                    NameEN = obj.NameEN ?? "",
+                    Language = lang,
+                    BidNumber = obj.BidNumber,
+                    OwnerID = obj.OwnerID,
+                    ProjectManagerID = obj.ProjectManagerID,
+                    GeneralConsultantID = obj.GeneralConsultantID,
+                    BusinessConsultantID = obj.BusinessConsultantID,
+                    Details = obj.Details,
+
+                    AddressAR = obj.AddressAR,
+                    AddressEN = obj.AddressEN,
+                    ProjectCode = obj.ProjectCode,
+                    AllItems = SelectItemsByBrojectID(obj.ProjectID,lang)
+
+
+                }).SingleOrDefault();
+                return Result;
+            }
+            catch (Exception ex)
+            {
+
+                return new ProjectVM();
+            }
+
+        }
+       
+      public int DeleteItem(int ItemID)
+          {
+
+              ObjectParameter flg = new ObjectParameter("flag", typeof(Int64));
+
+              try
+              {
+                  int flag = _dataBase.sp_ProjectItem_Delete(ItemID);
+
+                  return flag;
+              }
+              catch (Exception ex)
+              {
+
+                  return 0;
+              }
+          } 
+         
+
+        public List<ItemVM> SelectItemsByBrojectID(int ProjectID, int lang)
+        {
+            try
+            {
+                List<ItemVM> List = new List<ItemVM>();
+                List = _dataBase.SP_SelectItemsByProjectID(ProjectID).Select(obj => new ItemVM()
+                {
+                    PItemID = obj.PItemID,
+                    ItemCode = obj.ItemCode,
+                    PNameAR = obj.PNameAR,
+                    PNameEN = obj.PNameEN,
+                    MeasurementNameAR=obj.MeasurementNameAR,
+                    MeasurementNameEN=obj.MeasurementNameEN,
+                    CatNameAR = obj.CatNameAR,
+                    CatNameEN = obj.CatNameEN,
+                    MeasuringUnitID = obj.MeasuringUnitID,
+                    Quantity = obj.Quantity,
+                    Price = obj.Price,  
+                    Status = obj.Status,
+                    Notes = obj.Notes,
+                    Language = lang
+                    
+
+                }).ToList();
+                return List;
+            }
+            catch (Exception ex)
+            {
+
+                return new List<ItemVM>();
+            }
+        }
+
+    }
+}

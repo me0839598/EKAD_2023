@@ -1,0 +1,131 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EkadPropertyMangment.BLL.ViewModels
+{
+    public class ProjectVM : BasicVM
+    {
+        public int ProjectID { get; set; }
+        public string NameAR { get; set; }
+        public string NameEN { get; set; }
+        public string Name
+        {
+            get
+            {
+                if (Language == 1)
+                {
+                    return NameAR;
+                }
+                else
+                {
+                    return NameEN;
+                }
+            }
+        }
+        public int? BidNumber { get; set; }
+        public int? OwnerID { get; set; }
+        public int? ProjectManagerID { get; set; }
+        public int? GeneralConsultantID { get; set; }
+        public int? BusinessConsultantID { get; set; }
+
+        public string Details { get; set; }
+        public string AddressAR { get; set; }
+        public string AddressEN { get; set; }
+        public string Address
+        {
+            get
+            {
+                if (Language == 1)
+                {
+                    return AddressAR;
+                }
+                else
+                {
+                    return AddressEN;
+                }
+            }
+        }
+        public string OwnerNameAR { get; set; }
+        public string OwnerNameEN { get; set; }
+        public string OwnerName
+        {
+            get
+            {
+                if (Language == 1)
+                {
+                    return OwnerNameAR;
+                }
+                else
+                {
+                    return OwnerNameEN;
+                }
+            }
+        }
+
+
+
+        public string ProjectManagerNameAR { get; set; }
+        public string ProjectManagerNameEN { get; set; }
+        public string ProjectManager
+        {
+            get
+            {
+                if (Language == 1)
+                {
+                    return ProjectManagerNameAR;
+                }
+                else
+                {
+                    return ProjectManagerNameEN;
+                }
+            }
+        }
+
+        public string GeneralConsultantNameAR { get; set; }
+        public string GeneralConsultantNameEN { get; set; }
+        public string GeneralConsultant
+        {
+            get
+            {
+                if (Language == 1)
+                {
+                    return GeneralConsultantNameAR;
+                }
+                else
+                {
+                    return GeneralConsultantNameEN;
+                }
+            }
+        }
+
+        public string BusinessConsultantNameAR { get; set; }
+        public string BusinessConsultantNameEN { get; set; }
+        public string BusinessConsultant
+        {
+            get
+            {
+                if (Language == 1)
+                {
+                    return BusinessConsultantNameAR;
+                }
+                else
+                {
+                    return BusinessConsultantNameEN;
+                }
+            }
+        }
+
+
+        public int? ProjectCode { get; set; }
+        public string Createdby { get; set; }
+        public string Items { get; set; }
+        public List<ItemVM> AllItems { get; set; }
+
+
+
+
+    }
+}

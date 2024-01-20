@@ -1,0 +1,80 @@
+using EkadPropertyMangment.BLL.BussinessLayer;
+using EkadPropertyMangment.BLL.ViewModels;
+using EkadPropertyMangment.DAL.Models;
+using EkadPropertyMangment.Web.Controllers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace EkadPropertyMangment.Web.Areas.Admin.Controllers
+{
+    public class ProjectController : Controller
+    {
+        // GET: Admin/Project
+        OwnerBLL _OwnerBLL = new OwnerBLL();
+        CollectorBLL _CollectorBLL = new CollectorBLL();
+        ProjectBLL _ProjectBLL = new ProjectBLL();
+
+        public ActionResult Index()
+        {
+            var result = _ProjectBLL.GetAllProjects(lang);
+
+            return View(result);
+        }
+       
+            public JsonResult Getitems(int ProjectID)
+        {
+
+            var items = _ProjectBLL.SelectItemsByBrojectID( ProjectID, lang);
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+      public ActionResult DeleteItem(int ItemID)
+        {
+            try
+            {
+
+                var Check = _ProjectBLL.DeleteItem(ItemID);
+                return Json("deleted", JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception)
+            {
+                return Json("ErrorInController", JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+            public ActionResult Insert()
+        {
+
+            ViewBag.OwnerID = _OwnerBLL.GetAllOwners(lang, null, null, null, null, null, null, null, null);
+            ViewBag.ProjectManagerID = _CollectorBLL.GetAllCollectors(lang, null, null, null, null, null, 16);
+            ViewBag.GeneralConsultantID = _CollectorBLL.GetAllCollectors(lang, null, null, null, null, null, 17);
+            ViewBag.BusinessConsultantID = _CollectorBLL.GetAllCollectors(lang, null, null, null, null, null, 18);
+            ViewBag.ProjectCode = _ProjectBLL.MaxProjectCode();
+            ViewBag.ItemCode = _ProjectBLL.MaxProjectItemCode();
+            ViewBag.Measurements = _ProjectBLL.GetAllMeasurements(lang);
+            return View();
+        }
+        public JsonResult Insertajax(ProjectVM obj)
+        {
+            long result = 0;
+            obj.Createdby = UserIDSt;
+            try
+            {
+                result = _ProjectBLL.insert(obj);
+            }
+
+            catch
+            {
+                result = 0;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+    }
+}

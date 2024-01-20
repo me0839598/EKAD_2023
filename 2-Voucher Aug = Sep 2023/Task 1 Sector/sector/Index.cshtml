@@ -1,0 +1,243 @@
+﻿@using Ekad.Voucher.domain.Resources
+@model IEnumerable<Ekad.Voucher.domain.context.TblSector>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="/sector/Index">
+                sector
+            </a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>sector</span>
+        </li>
+    </ul>
+</div>
+
+<!-- END PAGE BAR -->
+<!-- BEGIN PAGE TITLE-->
+
+<div class="row">
+    <div class="col-md-10">
+        <h1 class="page-title">
+            sectorList
+
+        </h1>
+    </div>
+
+    <div class="col-md-2">
+        <a href="/sector/Create" class="btn green btn-add">
+            <i class="fa fa-plus"></i>
+            @Resource.AddNew
+
+        </a>
+    </div>
+
+</div>
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+@*search zone
+*@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box purple ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-search"></i> نموذج بيانات البحث
+                </div>
+                <div class="tools">
+                    <a href="" class="expand" data-original-title="" title=""> </a>
+                    <a href="" class="reload" data-original-title="" title=""> </a>
+
+                </div>
+            </div>
+            <div class="portlet-body form collapse">
+                <form class="form-horizontal" role="form" onsubmit="return Search(this)">
+                    <div class="form-body">
+                        <div class="col-md-6 form-group form-md-line-input">
+                            <label class="col-md-3 control-label">sector_name_ar</label>
+                            <div class="col-md-9">
+                                <div class="input-icon">
+                                    <input type="text" id="sectorname" class="form-control" placeholder=" sector_name_ar ">
+                                    <div class="form-control-focus"> </div>
+                                    <i class="fa fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 form-group form-md-line-input">
+                            <label class="col-md-3 control-label">sector_name_en</label>
+                            <div class="col-md-9">
+                                <div class="input-icon">
+                                    <input type="text" id="sectornameen" class="form-control" placeholder=" sector_name_en ">
+                                    <div class="form-control-focus"> </div>
+                                    <i class="fa fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                        </div>
+                    </div>
+                    <div class="form-actions right1">
+                       @* <a href="/Company/Index" type="button" class="btn default">مسح</a>*@
+                        <button type="button" id="SearchBtn" onclick="Search()" class="btn green">بحث</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+
+</div>
+
+<input id="delid" type="hidden" />
+
+
+
+
+<!-- Start DataTable -->
+<div class="row" id="div_data" name="div_data">
+    <div class="col-md-12" id="AllTable">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase">نتائج البحث</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+
+                <table class="table" width="99%" id="sample_1">
+                    <thead>
+                        <tr>
+                            
+                            <th>اسم القطاع بالعربي</th>
+                            <th>اسم القطاع بالأنجليزية</th>
+                            <th>ملاحظات القطاع بالعربي</th>
+                            <th>ملاحظات القطاع بالانجليزية</th>
+                            <th>التاريخ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableid" name="tableid">
+                        @if (Model != null && Model.Count() > 0)
+                        {
+
+                            foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>@item.SectorNameAr</td>
+                                    <td>@item.SectorNameEn</td>
+                                    <td>@item.SectorNotesAr</td>
+                                    <td>@item.SectorNotesEn</td>
+                                    <td>@item.CreateDate</td>
+
+                                    <td>
+                                        <div class="btn-group pull-right">
+                                            <button class="btn green btn-xs btn-outline dropdown-toggle" data-toggle="dropdown">
+                                                أدوات
+                                                <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right">
+
+                                                <li>
+                                                    <a href="@Url.Action("Edit", new { id = item.SectorId })"><i class="fa fa-edit"></i> تعديل </a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="deletepopup(@item.SectorId)"><i class="fa fa-close"></i> Delete </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+
+                            }
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+
+
+
+
+
+</div>
+<!-- End dataTable -->
+@section Scripts{
+    
+    <script>
+        function Search() {
+
+            debugger;
+            var sectorname = document.getElementById("sectorname").value;
+            $.ajax({
+                type: "GET",
+                url: "/sector/Searchsector",
+                cache: false,
+                data: {
+                    sectorname: sectorname
+                },
+                success: function (data) {
+                    debugger;
+
+                    $("#AllTable").html(data);
+                },
+                error: function (e) {
+                    
+                    alert("Error !!!")
+                }
+
+            });
+        }
+
+        
+    </script>
+    <script>
+        function deletepopup(id) {
+            debugger;
+            $("#delid").val(id);
+            //$("#ModalDelete").modal('show');
+            var CompanyID = $("#delid").val();
+            $.ajax({
+                type: "POST",
+                url: "/sector/DeleteSector",
+                data: { id: CompanyID },
+                success: function (response) {
+
+                    debugger
+                    if (response.success) {
+                        // Process the successful response, e.g., show a success message
+                        alert(response.message);
+                        // Optionally, you can redirect the user to another page
+                        window.location.href = "/sector/Index";
+                    }
+                    else {
+                        alert(response.message);
+                    }
+
+                },
+                error: function () {
+                    alert("Error");
+                }
+
+            });
+
+        }
+    </script>
+}
